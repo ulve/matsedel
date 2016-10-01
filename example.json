@@ -1,0 +1,97 @@
+{
+    "data": [
+        {
+            "meals": [
+                {
+                    "date": "2016-09-29T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "K\u00f6kets goda Chili sin carne, ris, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Klimatsmart gryta, ris, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                },
+                {
+                    "date": "2016-09-30T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "Ugnsstekt korv, potatismos, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Gr\u00f6nsaksvegett, potatismos, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                },
+                {
+                    "date": "2016-10-03T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "Pasta med Skink- och broccolis\u00e5s, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Pasta med klimatsmart pastas\u00e5s, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                },
+                {
+                    "date": "2016-10-04T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "Ugnsstekt fiskfil\u00e9 med rostad l\u00f6k, potatismos, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Gr\u00f6nsaksvegett, potatismos, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                },
+                {
+                    "date": "2016-10-05T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "Sk\u00e5nsk kalops, potatis, r\u00f6dbetor, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Klimatsmart kalops, potatis, r\u00f6dbetor, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                },
+                {
+                    "date": "2016-10-06T00:00:00",
+                    "lang": "sv",
+                    "name": "Lunch",
+                    "courses": [
+                        {
+                            "name": "Pytt i panna, gr\u00f6nsaksbuff\u00e9"
+                        },
+                        {
+                            "name": "Klimatsmart pastapytt, gr\u00f6nsaksbuff\u00e9"
+                        }
+                    ]
+                }
+            ],
+            "distributors": [
+                {
+                    "lang": "sv",
+                    "distributorID": "5323089923538944",
+                    "iCalendar": "https://skolmaten.se/allerums-skola/calendar/",
+                    "name": "Allerums skola",
+                    "address": {
+                        "addressCountry": "SE"
+                    }
+                }
+            ]
+        }
+    ]
+}

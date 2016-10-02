@@ -15,6 +15,7 @@ import Material.Typography as Typography
 import Task
 import Material.Card as Card
 import Date
+import Time exposing (Time, minute)
 
 
 -- TYPES
@@ -37,10 +38,10 @@ type alias Mdl =
 
 
 type Msg
-    = More
-    | FetchSucceed (List (List Meal))
+    = FetchSucceed (List (List Meal))
     | FetchFail Http.Error
     | Mdl (Material.Msg Msg)
+    | Tick Time.Time
 
 
 
@@ -52,9 +53,9 @@ init =
     ( { meals = [ { date = "idag", courses = [ "mat", "kött" ] } ], mdl = Material.model }, getMeals )
 
 
-subscriptions : a -> Sub b
+subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Time.every minute Tick
 
 
 
@@ -117,11 +118,11 @@ decodeCourses =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Tick _ ->
+            ( model, getMeals )
+
         Mdl msg' ->
             Material.update msg' model
-
-        More ->
-            ( model, getMeals )
 
         FetchFail _ ->
             Debug.log "Error" ( model, Cmd.none )
@@ -157,7 +158,7 @@ view model =
 viewCard : Model -> Html Msg
 viewCard model =
     Card.view
-        [ Elevation.e2
+        [ Elevation.e4
         , Elevation.transition 250
         , Options.css "width" "480px"
         ]
@@ -169,8 +170,10 @@ viewCard model =
             [ Card.head
                 [ Color.text Color.white
                 , Options.scrim 0.75
-                , Options.css "padding" "16px"
+                , Options.css "padding" "16px 0px 16px 0px"
                 , Options.css "width" "100%"
+                , Options.css "font-size" "200%"
+                , Options.center
                 ]
                 [ text "Matsedel" ]
             ]

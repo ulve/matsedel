@@ -3,11 +3,19 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.App
 import Html exposing (div, text)
-import Html.Attributes exposing (class)
-import Task
 import Http
 import Json.Decode exposing (Decoder, list, string, object2, (:=), at)
-import Css
+import Material
+import Material.Scheme
+import Material.Layout as Layout
+import Material.Color as Color
+import Material.Options as Options
+import Material.Elevation as Elevation
+import Material.Typography as Typography
+import Task
+import Material.Card as Card
+import Date
+
 
 -- TYPES
 
@@ -19,13 +27,20 @@ type alias Meal =
 
 
 type alias Model =
-    List Meal
+    { meals : List Meal
+    , mdl : Material.Model
+    }
+
+
+type alias Mdl =
+    Material.Model
 
 
 type Msg
     = More
     | FetchSucceed (List (List Meal))
     | FetchFail Http.Error
+    | Mdl (Material.Msg Msg)
 
 
 
@@ -34,15 +49,14 @@ type Msg
 
 init : ( Model, Cmd Msg )
 init =
-    ( [ { date = "idag", courses = [ "mat", "kött" ] } ], getMeals )
+    ( { meals = [ { date = "idag", courses = [ "mat", "kött" ] } ], mdl = Material.model }, getMeals )
 
 
 subscriptions : a -> Sub b
 subscriptions model =
     Sub.none
 
-styles = 
-    Css.asPairs >> Html.Attributes.style
+
 
 -- MAIN
 
@@ -103,18 +117,24 @@ decodeCourses =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Mdl msg' ->
+            Material.update msg' model
+
         More ->
             ( model, getMeals )
 
         FetchFail _ ->
-            Debug.log "ÅÅÅÅÅ" ( model, Cmd.none )
+            Debug.log "Error" ( model, Cmd.none )
 
         FetchSucceed newList ->
             let
                 l =
-                    Maybe.withDefault [ { date = "idag", courses = [ "mat", "kött" ] } ] (List.head newList)
+                    Maybe.withDefault [ { date = "", courses = [] } ] (List.head newList)
+
+                p =
+                    { mdl = model.mdl, meals = l }
             in
-                ( l, Cmd.none )
+                ( p, Cmd.none )
 
 
 
@@ -123,12 +143,76 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ styles [] ] <| List.map viewDay model
+    Material.Scheme.topWithScheme Color.BlueGrey Color.Cyan <|
+        Layout.render Mdl
+            model.mdl
+            []
+            { header = []
+            , drawer = []
+            , tabs = ( [], [] )
+            , main = [ viewCard model ]
+            }
 
 
-viewDay : Meal -> Html Msg
-viewDay meal =
-    Html.div [ class "dag" ]
-        [ Html.div [ class "datum" ] [ text meal.date ]
-        , Html.div [ class "mat" ] <| (List.map (\f -> div [] [ text f ]) meal.courses)
+viewCard : Model -> Html Msg
+viewCard model =
+    Card.view
+        [ Elevation.e2
+        , Elevation.transition 250
+        , Options.css "width" "480px"
         ]
+        [ Card.title
+            [ Options.css "background" "url('http://rustlersonline.com/wp-content/uploads/HotDog.png') center / cover"
+            , Options.css "height" "256px"
+            , Options.css "padding" "0"
+            ]
+            [ Card.head
+                [ Color.text Color.white
+                , Options.scrim 0.75
+                , Options.css "padding" "16px"
+                , Options.css "width" "100%"
+                ]
+                [ text "Matsedel" ]
+            ]
+        , Card.text [ Card.expand ]
+            [ Options.div [] <| List.map viewDay model.meals
+            ]
+        ]
+
+
+viewDay : Meal -> Html b
+viewDay meal =
+    Options.div []
+        [ Options.styled p [ Typography.center, Typography.subhead ] [ text (toWeekDay meal.date) ]
+        , Options.styled p [ Typography.center ] <| (List.map (\f -> div [] [ text f ]) meal.courses)
+        ]
+
+
+toWeekDay : String -> String
+toWeekDay unparsed =
+    case Date.fromString unparsed of
+        Result.Ok val ->
+            case Date.dayOfWeek val of
+                Date.Mon ->
+                    "Måndag"
+
+                Date.Tue ->
+                    "Tisdag"
+
+                Date.Wed ->
+                    "Onsdag"
+
+                Date.Thu ->
+                    "Torsdag"
+
+                Date.Fri ->
+                    "Fredag"
+
+                Date.Sat ->
+                    "Lödag"
+
+                Date.Sun ->
+                    "Söndag"
+
+        Result.Err val ->
+            "Inget bra datum"

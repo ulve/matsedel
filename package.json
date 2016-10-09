@@ -1,0 +1,26 @@
+{
+  "name": "matsedel",
+  "version": "1.0.0",
+  "description": "En matsedel",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "elm-test && cd tests && mocha *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulve/matsedel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ulve/matsedel/issues"
+  },
+  "homepage": "https://github.com/ulve/matsedel#readme",
+  "devDependencies": {
+	  "chai": "3.4.1",
+	  "mocha": "2.3.4"
+  }
+}
